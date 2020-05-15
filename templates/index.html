@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2 class="ui center aligned icon header">
+        <i class="circular coffee icon"></i>
+        Social Posts
+    </h2>
+    <div class="row">
+        {% for post in posts %}
+            <div style="margin: 10px 0;" class="col-lg-4">
+                <div class="ui raised card">
+                    <div class="ui image">
+                        <img style="height: 200px;" src="{{ post.post_image.url }}" alt="">
+                    </div>
+                    <div class="content">
+                        <a style="text-decoration: none;" href="{% url 'posts:detail' slug=post.slug %}">
+                            <div class="header">{{ post.title }}</div>
+                        </a>
+                    </div>
+                    <div class="extra content">
+                        <div class="right floated author">
+                            <img class="ui avatar image" src="{{ post.author.userprofile.profile_pic.url }}">
+                            {{ post.author.get_full_name }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>My Posts:</h1>
+    <div class="ui items">
+        {% for post in posts %}
+            <div class="item">
+                <div class="ui tiny image">
+                    <img src="{{ post.post_image.url }}">
+                </div>
+                <div class="middle aligned content">
+                    <a href="{{ post.slug }}" class="header">{{ post.title }}</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

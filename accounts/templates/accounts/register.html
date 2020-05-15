@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block content %}
+    <h1>Registration Form:</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <input class="ui button positive" type="submit" value="Register">
+    </form>
+{% endblock %}

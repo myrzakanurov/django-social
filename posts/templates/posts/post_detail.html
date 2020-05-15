@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div>
+        <img style="width: 250px;" src="{{ post.post_image.url }}" alt="">
+        <h3>{{ post.title }}</h3>
+        <p>{{ post.content }}</p>
+        <p><small><b>{{ post.created_date }}</b> by <b>{{ post.author }}</b></small></p>
+    </div>
+    <div class="jumbotron">
+        <h2>Comments:</h2>
+        {% for comment in post.comment_set.all %}
+            <p>{{ comment.text }}</p>
+            <p>{{ comment.created_date }} by {{ comment.author }}</p>
+        {% empty %}
+            <p>No Comments here yet</p>
+        {% endfor %}
+    </div>
+    <div>
+        <form method="post" action="{% url 'posts:add_comment' slug=post.slug %}">
+            {% csrf_token %}
+            {{ comment_form.as_p }}
+            <input type="submit" value="Send">
+        </form>
+    </div>
+{% endblock %}
