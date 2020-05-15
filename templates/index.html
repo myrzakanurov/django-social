@@ -9,10 +9,10 @@
             <div style="margin: 10px 0;" class="col-lg-4">
                 <div class="ui raised card">
                     <div class="ui image">
-                        <img style="height: 200px;" src="{{ post.post_image.url }}" alt="">
+                        <img style="" src="{{ post.post_image.url }}" alt="">
                     </div>
                     <div class="content">
-                        <a style="text-decoration: none;" href="{% url 'posts:detail' slug=post.slug %}">
+                        <a href="{% url 'posts:detail' slug=post.slug %}">
                             <div class="header">{{ post.title }}</div>
                         </a>
                     </div>

@@ -3,6 +3,7 @@ from django.views.generic import CreateView, ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from posts.forms import PostForm, CommentForm, Post, Comment
 from django.urls import reverse_lazy
+from django.contrib.messages.views import SuccessMessageMixin
 
 
 def index(request):
@@ -10,11 +11,15 @@ def index(request):
     return render(request, 'index.html', {'posts': posts})
 
 
-class PostCreateView(CreateView, LoginRequiredMixin):
+class PostCreateView(SuccessMessageMixin, CreateView, LoginRequiredMixin):
     model = Post
     form_class = PostForm
     success_url = reverse_lazy('posts:my_list')
     template_name = 'posts/post_form.html'
+    # success_message = "Post was created successfully"
+
+    def get_success_message(self, cleaned_data):
+        return self.object.title+" added successfully"
 
     def form_valid(self, form):
         form.instance.author = self.request.user.userprofile
