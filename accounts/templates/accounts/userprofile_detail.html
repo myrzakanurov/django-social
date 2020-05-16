@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="ui card">
+        <div class="image">
+            <img src="{{ user_profile.profile_pic.url }}">
+        </div>
+        <div class="content">
+            <a class="header">{{ user_profile.get_full_name }}</a>
+            <div class="meta">
+                <span class="date">{{ user_profile.date_joined }}</span>
+            </div>
+        </div>
+        <div class="extra content">
+            <a>
+                <i class="pencil alternate icon"></i>
+                Post number: {{ user_profile.post_set.count }}
+            </a>
+        </div>
+    </div>
+{% endblock %}

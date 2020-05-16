@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
 {% load bootstrap4 %}
 {% block content %}
+    <div class="alert-success">
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    </div>
     <h1>Login:</h1>
     <form method="post">
         {% csrf_token %}
