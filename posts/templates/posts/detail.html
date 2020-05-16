@@ -1,5 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
+    {% if messages %}
+        <div class="alert alert-success">
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        </div>
+    {% endif %}
     <div class="ui items">
         <div class="item">
             <a class="ui small image">
@@ -12,6 +19,16 @@
                 </div>
                 <div class="extra">
                     <p>{{ post.created_date }} by {{ post.author.get_full_name }}</p>
+                    {% if post.author == user.userprofile %}
+                        <div class="ui two buttons">
+                            <a href="{% url 'posts:edit' slug=post.slug %}">
+                                <div class="ui basic green button">Edit</div>
+                            </a>
+                            <a href="{% url 'posts:remove' slug=post.slug %}">
+                                <div class="ui basic red button">Remove</div>
+                            </a>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -20,19 +37,19 @@
         <h3 class="ui dividing header">Comments</h3>
         {% for comment in post.comment_set.all %}
             <div class="comment">
-            <a class="avatar">
-                <img src="{{ comment.author.profile_pic.url }}" alt="">
-            </a>
-            <div class="content">
-                <a href="{% url 'accounts:user_profile' pk=comment.author.pk %}" class="author">{{ comment.author.get_full_name }}</a>
-                <div class="metadata">
-                    <span class="date">{{ comment.created_date }}</span>
-                </div>
-                <div class="text">
-                    {{ comment.text }}
+                <a class="avatar">
+                    <img src="{{ comment.author.profile_pic.url }}" alt="">
+                </a>
+                <div class="content">
+                    <a href="{% url 'accounts:user_profile' pk=comment.author.pk %}" class="author">{{ comment.author.get_full_name }}</a>
+                    <div class="metadata">
+                        <span class="date">{{ comment.created_date }}</span>
+                    </div>
+                    <div class="text">
+                        {{ comment.text }}
+                    </div>
                 </div>
             </div>
-        </div>
         {% endfor %}
         <form class="ui reply form" method="post">
             {% csrf_token %}

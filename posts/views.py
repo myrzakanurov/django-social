@@ -1,9 +1,10 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404
-from django.views.generic import CreateView, ListView, DetailView
+from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from posts.forms import PostForm, CommentForm, Post, Comment
 from django.urls import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
+from django.http import HttpResponseForbidden, HttpResponseRedirect, Http404
 
 
 def index(request):
@@ -24,6 +25,23 @@ class PostCreateView(SuccessMessageMixin, CreateView, LoginRequiredMixin):
     def form_valid(self, form):
         form.instance.author = self.request.user.userprofile
         return super().form_valid(form)
+
+
+class PostUpdateView(SuccessMessageMixin, UpdateView, LoginRequiredMixin):
+    model = Post
+    form_class = PostForm
+
+    def get_success_url(self):
+        return reverse_lazy('posts:detail', kwargs={'slug': self.object.slug})
+
+    def get_success_message(self, cleaned_data):
+        return self.object.title+' updated successfully'
+
+
+class PostDeleteView(DeleteView, LoginRequiredMixin):
+    model = Post
+    context_object_name = 'post'
+    success_url = reverse_lazy('posts:my_list')
 
 
 class MyPostListView(ListView):
